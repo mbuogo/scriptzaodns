@@ -1,0 +1,24 @@
+#!/bin/bash
+
+gatilho=0
+if [ "$1" == "" ] #testa o argumento
+then
+	echo "Siga o exemplo abaixo para passagem de parametros, passando o nome de domínio"
+	echo " $0 batatinha.com.br wordlist bloco IP"
+
+else
+    echo "######################################################"
+    echo "####### INICIO VARREDURA DE ENTRADAS DNS ###############"
+    echo "#####################################################"
+	gatilho=1
+	for rato in $(cat $2);
+	do
+    	url=$rato"."$1
+    	host $url | grep "has address" | awk '{print $1, "- " $4'}
+
+	done
+fi
+
+echo "######################################################"
+echo "####### FIM VARREDURA DE ENTRADAS DNS ###############"
+echo "#####################################################"
