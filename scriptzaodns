@@ -23,38 +23,6 @@ echo "######################################################"
 echo "####### FIM VARREDURA DE ENTRADAS DNS ###############"
 echo "#####################################################"
 
-#Teste de retorno HTTP
-
-echo " "
-echo "######################################################"
-echo "####### INICIO DE VARREDURA RETORNO HTTP #############"
-echo "#####################################################"
-
-if [ "$gatilho" == "1" ]
-then
-
-for palavra in $(cat $2)
-do
-	resposta=$(curl -s -o /dev/null -w "%{http_code}" $1/$palavra/)
-
-	if [ $resposta == "200" ]
-	then
-	echo "Diretorio encontrando - $palavra"
-	else
-    	resposta=$(curl -s -o /dev/null -w "%{http_code}" $1/$palavra)
-    	if [ $resposta == "200" ]
-    	then
-    	echo "Arquivo encontrando - $palavra"
-    	fi
-	fi
-
-done
-fi
-echo " "
-echo "######################################################"
-echo "####### FIM DE VARREDURA RETORNO HTTP #############"
-echo "#####################################################"
-
 #DNS Reverso
 
 echo " "
@@ -73,6 +41,7 @@ echo " "
 echo "######################################################"
 echo "####### FIM  DE VARREDURA DNS REVERSO #############"
 echo "#####################################################"
+
 #Transferencia de zona DNS
 echo " "
 echo "######################################################"
