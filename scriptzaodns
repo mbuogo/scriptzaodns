@@ -1,0 +1,93 @@
+#!/bin/bash
+
+gatilho=0
+if [ "$1" == "" ] #testa o argumento
+then
+	echo "Siga o exemplo abaixo para passagem de parametros, passando o nome de domínio"
+	echo " $0 batatinha.com.br wordlist bloco IP"
+
+else
+    echo "######################################################"
+    echo "####### INICIO VARREDURA DE ENTRADAS DNS ###############"
+    echo "#####################################################"
+	gatilho=1
+	for rato in $(cat $2);
+	do
+    	url=$rato"."$1
+    	host $url | grep "has address" | awk '{print $1, "- " $4'}
+
+	done
+fi
+
+echo "######################################################"
+echo "####### FIM VARREDURA DE ENTRADAS DNS ###############"
+echo "#####################################################"
+
+#Teste de retorno HTTP
+
+echo " "
+echo "######################################################"
+echo "####### INICIO DE VARREDURA RETORNO HTTP #############"
+echo "#####################################################"
+
+if [ "$gatilho" == "1" ]
+then
+
+for palavra in $(cat $2)
+do
+	resposta=$(curl -s -o /dev/null -w "%{http_code}" $1/$palavra/)
+
+	if [ $resposta == "200" ]
+	then
+	echo "Diretorio encontrando - $palavra"
+	else
+    	resposta=$(curl -s -o /dev/null -w "%{http_code}" $1/$palavra)
+    	if [ $resposta == "200" ]
+    	then
+    	echo "Arquivo encontrando - $palavra"
+    	fi
+	fi
+
+done
+fi
+echo " "
+echo "######################################################"
+echo "####### FIM DE VARREDURA RETORNO HTTP #############"
+echo "#####################################################"
+
+#DNS Reverso
+
+echo " "
+echo "######################################################"
+echo "####### INICIO DE VARREDURA DNS REVERSO #############"
+echo "#####################################################"
+if [ "$gatilho" == "1" ]
+then
+ 
+for ip in $(seq 1 254);
+do
+    host $3.$ip | grep -v NXDOMAIN
+done
+fi
+echo " "
+echo "######################################################"
+echo "####### FIM  DE VARREDURA DNS REVERSO #############"
+echo "#####################################################"
+#Transferencia de zona DNS
+echo " "
+echo "######################################################"
+echo "####### TESTE DE TRANSFERENCIA DE ZONA DNSv###########"
+echo "#####################################################"
+if [ "$gatilho" == "1" ]
+then
+
+for ns in $(host -t ns $1 | cut -d " " -f4);
+do
+    	host -l $1 $ns | grep "has address"
+done
+fi
+
+echo " "
+echo "######################################################"
+echo "############# FIM ###################################"
+echo "#####################################################"
