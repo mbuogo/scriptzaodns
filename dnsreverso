@@ -2,17 +2,26 @@
 
 #DNS Reverso
 
-echo " "
-echo "######################################################"
-echo "####### INICIO DE VARREDURA DNS REVERSO #############"
-echo "#####################################################"
+if [ "$1" == "" ] #testa o argumento
+then
+        echo "Siga o exemplo abaixo para passagem de parametros, o inicio endereco de IP"
+        echo " $0 200.1.1"
 
-for ip in $(seq 1 254);
-do
-    host $3.$ip | grep -v NXDOMAIN
-done
+else
+   clear
 
-echo " "
-echo "######################################################"
-echo "####### FIM  DE VARREDURA DNS REVERSO #############"
-echo "#####################################################"
+        echo " "
+        echo "######################################################"
+        echo "######## INICIO DE VARREDURA DNS REVERSO #############"
+        echo "######################################################"
+
+        for ip in $(seq 1 254);
+        do
+            host $1.$ip | grep -v NXDOMAIN
+        done
+
+        echo " "
+        echo "######################################################"
+        echo "######### FIM  DE VARREDURA DNS REVERSO ##############"
+        echo "######################################################"
+fi
