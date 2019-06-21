@@ -2,14 +2,14 @@
 
 if [ "$1" == "" ] #testa o argumento
 then
-        echo "Siga o exemplo abaixo, passando o nome de domínio e a wordlist"
+        echo "Siga o exemplo abaixo para passagem de parametros, passando o nome de dominio"
         echo " $0 dominio wordlist"
 
 else
    clear
         echo "######################################################"
-    echo "####### INICIO VARREDURA DE ENTRADAS DNS ###############"
-    echo "#####################################################"
+        echo "####### INICIO VARREDURA DE ENTRADAS DNS #############"
+        echo "######################################################"
         for rato in $(cat $2);
         do
         dominio=$rato"."$1
@@ -18,6 +18,6 @@ else
         done
 
         echo "######################################################"
-        echo "####### FIM VARREDURA DE ENTRADAS DNS ###############"
-        echo "#####################################################"
+        echo "######## FIM VARREDURA DE ENTRADAS DNS ###############"
+        echo "######################################################"
 fi
