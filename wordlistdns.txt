@@ -76,3 +76,16 @@ nagios
 cacti
 cameras
 monitoramento
+hgcs
+ucsvirtual
+ava
+voip
+voice
+asterix
+pabx
+dns
+dns1
+dns2
+dns3
+ns
+laboratorio
